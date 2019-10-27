@@ -20,7 +20,8 @@ namespace DATINGAPP.API.Controllers
         public ValuesController(DataContext context){
            _context = context;
         }
-        [HttpGet("get")]
+        [AllowAnonymous]
+        [HttpGet]
         public async Task<IActionResult> GetValues()
         {
             var values =await _context.Values.ToListAsync();
