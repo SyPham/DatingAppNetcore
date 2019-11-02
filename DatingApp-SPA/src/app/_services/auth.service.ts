@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { modelGroupProvider } from '@angular/forms/src/directives/ng_model_group';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +22,6 @@ constructor(private http: HttpClient) { }
     }
 
     register(model: any) {
-        console.log(model);
         return this.http.post(this.baseUrl + 'register', model);
     }
 }
