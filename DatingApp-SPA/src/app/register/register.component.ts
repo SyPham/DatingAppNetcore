@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../_services/auth.service';
+import { AlertifyService } from '../_services/alertify.service';
 
 
 
@@ -13,7 +14,7 @@ export class RegisterComponent implements OnInit {
     @Output() cancelRegister = new EventEmitter(); //emit the same vuejs emit
 
     model: any = {};
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private alertify: AlertifyService) { }
 
   ngOnInit() {
 
@@ -21,9 +22,9 @@ export class RegisterComponent implements OnInit {
 
   register() {
       this.authService.register(this.model).subscribe(() => {
-        console.log('Resgister Successfful');
+        this.alertify.success('Resgister Successfful');
       }, error => {
-          console.log(error);
+        this.alertify.error(error);
       });
   }
 
