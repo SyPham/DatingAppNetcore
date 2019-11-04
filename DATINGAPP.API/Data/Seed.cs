@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using DATINGAPP.API.Models;
 using Newtonsoft.Json;
 
@@ -23,7 +24,9 @@ namespace DATINGAPP.API.Data
                 user.PasswordHash = passwordHash;
                 user.PasswordSalt = passwordSalt;
                 user.Username = user.Username.ToLower();
+                if(_context.Users.FirstOrDefault(x=>x.Username == user.Username) == null){
                 _context.Users.Add(user);
+                }
             }
             _context.SaveChanges();
         }
