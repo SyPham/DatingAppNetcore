@@ -19,6 +19,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using DATINGAPP.API.Helper;
+using AutoMapper;
+
 namespace DATINGAPP.API
 {
     public class Startup
@@ -36,12 +38,16 @@ namespace DATINGAPP.API
         {
             services.AddDbContext<DataContext>(x=> x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers();
+            
             //bao ve
             services.AddCors();
+            services.AddAutoMapper();
+            services.AddTransient<Seed>();
             //tao ra moi lan chung ta yeu cau
             //services.AddTransient()
             //dich vu tao ra 1 lan cho moi pham vi
             services.AddScoped<IAuthRepository,AuthRepository>();
+            services.AddScoped<IDatingRepository,DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -58,7 +64,7 @@ namespace DATINGAPP.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, Seed seeder)
         {
             if (env.IsDevelopment())
             {
@@ -79,7 +85,7 @@ namespace DATINGAPP.API
             }
 
             // app.UseHttpsRedirection();
-
+            seeder.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseRouting();
             app.UseAuthorization();
