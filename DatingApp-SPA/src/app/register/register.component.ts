@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, Output , EventEmitter} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 
